@@ -1,10 +1,8 @@
-float exp(float b, int n){
-  // compute exp(b,n) naively
-  // assuming n>=0
-  float result = 1;
-  while (n!=0){
-    result = result * b;
-    n = n-1; 
-  }
-  return result;
-}
+hardware: helloworld
+inputs: Reset
+outputs: Oscillator
+latches: Oscillator
+updates:
+Oscillator = /Oscillator’ * /Reset
+siminputs:
+Reset=0000100

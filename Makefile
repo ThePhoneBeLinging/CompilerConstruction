@@ -11,7 +11,7 @@ grun = java -cp $(classpath) org.antlr.v4.gui.TestRig
 SRCFILES = main.java
 GENERATED = ccListener.java ccBaseListener.java ccParser.java ccLexer.java
 
-all:	
+all:
 	make grun
 
 ccLexer.java:	cc.g4
