@@ -1,2 +1,5 @@
-lexer grammar cc;
-EXAMPLE: [a-z]+;
+grammar cc;
+
+start   : ANYTHING EOF ;
+
+ANYTHING : .+ ;

@@ -18,7 +18,7 @@ ccLexer.java:	cc.g4
 	$(antlr4) cc.g4
 
 ccLexer.class:	ccLexer.java
-	javac $(classpath) $(GENERATED)
+	javac -cp $(classpath) $(GENERATED)
 
 grun:	ccLexer.class cc.txt
 	$(grun) cc start -gui -tokens prog.txt 
