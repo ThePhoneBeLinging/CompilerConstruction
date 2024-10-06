@@ -6,8 +6,8 @@ classpath = '$(antlrjar):.'
 ###### FOR WINDOWS -- uncomment the following line if you use Windows:
 #classpath = '$(antlrjar);.'
 
-antlr4 = java $(classpath) org.antlr.v4.Tool
-grun = java $(classpath) org.antlr.v4.gui.TestRig
+antlr4 = java -cp $(classpath) org.antlr.v4.Tool
+grun = java -cp $(classpath) org.antlr.v4.gui.TestRig
 SRCFILES = main.java
 GENERATED = ccListener.java ccBaseListener.java ccParser.java ccLexer.java
 
