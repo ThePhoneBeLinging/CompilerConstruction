@@ -4,8 +4,8 @@ start       : (assignment | updates | siminputs | COMMENT)* EOF;
 
 // Top level:
 
-updates: 'updates' COLON (updatesExp)*;
-siminputs:  'siminputs' COLON (siminputExp)*;
+updates: 'updates' COLON (updatesExp)+;
+siminputs:  'siminputs' COLON (siminputExp)+;
 assignment: TYPES COLON IDENTIFIER;
 
 // Expressions:
