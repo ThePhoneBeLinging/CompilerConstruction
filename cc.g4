@@ -1,19 +1,32 @@
 grammar cc;
 
-start       : (not | identifier | number | add | mult | equals | whitespace)+ EOF;
-not         : NOT;
-identifier  : IDENTIFIER;
-number      : NUMBER;
-add         : ADD;
-mult        : MULT;
-equals      : EQUALS;
-whitespace  : WHITESPACE;
+start       : (assignment | updates | siminputs | COMMENT)* EOF;
+
+// Top level:
 
 
-IDENTIFIER: [a-zA-Z_]+[a-zA-Z_0-9]*;
-WHITESPACE: [\n]+;
+updates: 'updates' COLON (updatesExp)*;
+siminputs:  'siminputs' COLON (siminputExp)*;
+assignment: TYPES COLON IDENTIFIER;
+
+
+// Expressions:
+siminputExp: IDENTIFIER EQUALS NUMBER;
+updatesExp: IDENTIFIER EQUALS updatesExp
+            | NOT IDENTIFIER
+            | updatesExp AND updatesExp
+            | updatesExp OR updatesExp
+            | IDENTIFIER;
+
+
+WHITESPACE: [ \n\t\r]+ -> skip;
+TYPES: 'hardware' | 'inputs' | 'outputs' | 'latches' | 'updates' | 'siminputs';
+IDENTIFIER: [a-zA-Z_]+[a-zA-Z_0-9’]*;
 NUMBER: [0-9]+;
-ADD : '+';
-MULT : '*';
-NOT : '/';
+AND: '*';
+OR: '+';
+NOT: '/';
 EQUALS: '=';
+COLON: ':';
+COMMENT: ('//' ~[\n]* | '/*' .*? '*/') -> skip;
+
