@@ -4,11 +4,9 @@ start       : (assignment | updates | siminputs | COMMENT)* EOF;
 
 // Top level:
 
-
 updates: 'updates' COLON (updatesExp)*;
 siminputs:  'siminputs' COLON (siminputExp)*;
 assignment: TYPES COLON IDENTIFIER;
-
 
 // Expressions:
 siminputExp: IDENTIFIER EQUALS NUMBER;
@@ -17,7 +15,6 @@ updatesExp: IDENTIFIER EQUALS updatesExp
             | updatesExp AND updatesExp
             | updatesExp OR updatesExp
             | IDENTIFIER;
-
 
 WHITESPACE: [ \n\t\r]+ -> skip;
 TYPES: 'hardware' | 'inputs' | 'outputs' | 'latches' | 'updates' | 'siminputs';
