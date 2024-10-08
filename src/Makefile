@@ -1,10 +1,10 @@
 antlrjar = antlr-4.13.2-complete.jar
 
 ###### FOR LINUX AND MAC -- comment the following line if you use Windows:
-##classpath = '$(antlrjar):.'
+classpath = '$(antlrjar):.'
 
 ###### FOR WINDOWS -- uncomment the following line if you use Windows:
-classpath = '$(antlrjar);.'
+##classpath = '$(antlrjar);.'
 
 antlr4 = java -cp $(classpath) org.antlr.v4.Tool
 grun = java -cp $(classpath) org.antlr.v4.gui.TestRig
@@ -21,4 +21,4 @@ ccLexer.class:	ccLexer.java
 	javac -cp $(classpath) $(GENERATED)
 
 grun:	ccLexer.class cc.txt
-	$(grun) cc start -gui -tokens prog.txt 
+	$(grun) cc start -gui -tokens test/01a-hello-world.txt
