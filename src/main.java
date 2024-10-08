@@ -105,6 +105,12 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	}
 
 	@Override
+	public String visitDEFINITION(ccParser.DEFINITIONContext ctx)
+	{
+		return "";
+	}
+
+	@Override
 	public String visitANDExp(ccParser.ANDExpContext ctx)
 	{
 		return "";
@@ -124,12 +130,6 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 
 	@Override
 	public String visitVariable(ccParser.VariableContext ctx)
-	{
-		return "";
-	}
-
-	@Override
-	public String visitDEF(ccParser.DEFContext ctx)
 	{
 		return "";
 	}
