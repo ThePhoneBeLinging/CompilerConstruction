@@ -27,3 +27,9 @@ ccLexer.class:	ccLexer.java
 
 grun:	ccLexer.class cc.txt
 	$(grun) cc start -gui -tokens test/$(1b)
+
+main.class:	ccLexer.java main.java
+	javac -cp $(classpath) $(GENERATED) main.java
+
+run:	main.class
+	java -cp $(classpath) main test/$(1a)
