@@ -1,25 +1,25 @@
 grammar cc;
 
-start       : (assignment | updates | def | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)* EOF;
+start       : (assignment | hardware | updates | def | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)* EOF;
 
 // Top level:
 
-updates: 'updates' COLON (expression)+;
-siminputs:  'siminputs' COLON (IDENTIFIER EQUALS NUMBER)+;
-inputs: 'inputs' COLON (expression)+;
-outputs: 'outputs' COLON (expression)+;
-def: DEF COLON IDENTIFIER '(' IDENTIFIER (',' IDENTIFIER)* ')' EQUALS (expression)+;
-latches: 'latches' COLON (expression)+;
-assignment: TYPES COLON expression;
-
+updates: 'updates' COLON (expression)+ # UpdatesContext;
+siminputs:  'siminputs' COLON (IDENTIFIER EQUALS NUMBER)+ #SimnputContext;
+inputs: 'inputs' COLON (expression)+ # InputsContext;
+outputs: 'outputs' COLON (expression)+ # OutputsContext;
+def: DEF COLON IDENTIFIER '(' IDENTIFIER (',' IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
+latches: 'latches' COLON (expression)+ # LathesContext;
+assignment: TYPES COLON expression # AssignmentContext;
+hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 
 // Expressions:
-expression: IDENTIFIER EQUALS expression
-            | NOT IDENTIFIER
-            | expression AND expression
-            | expression OR expression
-            | IDENTIFIER '(' expression (',' expression)* ')'
-            | IDENTIFIER;
+expression: IDENTIFIER EQUALS expression #IdentEqExp
+            | NOT IDENTIFIER # NotExp
+            | expression AND expression # ANDExp
+            | expression OR expression # ORExp
+            | IDENTIFIER '(' expression (',' expression)* ')' # DEF
+            | IDENTIFIER # Variable;
 
 DEF: 'def';
 WHITESPACE: [ \n\t\r]+ -> skip;
