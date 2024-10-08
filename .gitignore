@@ -10,3 +10,6 @@ src/ccListener.java
 src/ccParser.class
 src/ccParser.java
 *.class
+/src/ccBaseVisitor.java
+/src/ccVisitor.java
+/CompilerConstruction.iml
