@@ -1,11 +1,14 @@
 grammar cc;
 
-start       : (assignment | updates | siminputs | COMMENT)* EOF;
+start       : (assignment | updates | siminputs | inputs | outputs | latches | COMMENT)* EOF;
 
 // Top level:
 
 updates: 'updates' COLON (updatesExp)+;
 siminputs:  'siminputs' COLON (siminputExp)+;
+inputs: 'inputs' COLON (IDENTIFIER)+;
+outputs: 'outputs' COLON (IDENTIFIER)+;
+latches: 'latches' COLON (IDENTIFIER)+;
 assignment: TYPES COLON IDENTIFIER;
 
 // Expressions:
