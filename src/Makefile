@@ -21,4 +21,4 @@ ccLexer.class:	ccLexer.java
 	javac -cp $(classpath) $(GENERATED)
 
 grun:	ccLexer.class cc.txt
-	$(grun) cc start -gui -tokens test/03-trafiklys.hw
+	$(grun) cc start -gui -tokens test/04-von-Neumann.hw

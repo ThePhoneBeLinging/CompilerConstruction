@@ -1,27 +1,29 @@
 grammar cc;
 
-start       : (assignment | updates | siminputs | inputs | outputs | latches | COMMENT)* EOF;
+start       : (assignment | updates | def | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)* EOF;
 
 // Top level:
 
-updates: 'updates' COLON (updatesExp)+;
-siminputs:  'siminputs' COLON (siminputExp)+;
-inputs: 'inputs' COLON (IDENTIFIER)+;
-outputs: 'outputs' COLON (IDENTIFIER)+;
-latches: 'latches' COLON (IDENTIFIER)+;
-assignment: TYPES COLON IDENTIFIER;
+updates: 'updates' COLON (expression)+;
+siminputs:  'siminputs' COLON (IDENTIFIER EQUALS NUMBER)+;
+inputs: 'inputs' COLON (expression)+;
+outputs: 'outputs' COLON (expression)+;
+def: DEF COLON IDENTIFIER '(' IDENTIFIER (',' IDENTIFIER)* ')' EQUALS (expression)+;
+latches: 'latches' COLON (expression)+;
+assignment: TYPES COLON expression;
+
 
 // Expressions:
-siminputExp: IDENTIFIER EQUALS NUMBER;
-updatesExp: IDENTIFIER EQUALS updatesExp
+expression: IDENTIFIER EQUALS expression
             | NOT IDENTIFIER
-            | updatesExp AND updatesExp
-            | updatesExp OR updatesExp
+            | expression AND expression
+            | expression OR expression
+            | IDENTIFIER '(' expression (',' expression)* ')'
             | IDENTIFIER;
 
+DEF: 'def';
 WHITESPACE: [ \n\t\r]+ -> skip;
 TYPES: 'hardware' | 'inputs' | 'outputs' | 'latches' | 'updates' | 'siminputs';
-IDENTIFIER: [a-zA-Z_]+[a-zA-Z_0-9’]*;
 NUMBER: [0-9]+;
 AND: '*';
 OR: '+';
@@ -29,4 +31,5 @@ NOT: '/';
 EQUALS: '=';
 COLON: ':';
 COMMENT: ('//' ~[\n]* | '/*' .*? '*/') -> skip;
+IDENTIFIER: [a-zA-Z_]+[a-zA-Z_0-9’]*;
 
