@@ -18,7 +18,7 @@ expression: IDENTIFIER EQUALS expression #IdentEqExp
             | NOT IDENTIFIER # NotExp
             | expression AND expression # ANDExp
             | expression OR expression # ORExp
-            | IDENTIFIER '(' expression (',' expression)* ')' # DEF
+            | IDENTIFIER '(' expression (',' expression)* ')' # DEFINITION
             | IDENTIFIER # Variable;
 
 DEF: 'def';
