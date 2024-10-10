@@ -160,19 +160,19 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitNotExp(ccParser.NotExpContext ctx)
 	{
-		return "/" + ctx.IDENTIFIER().toString();
+		return "/" + ctx.IDENTIFIER().getText();
 	}
 
 	@Override
 	public String visitIdentEqExp(ccParser.IdentEqExpContext ctx)
 	{
-		return ctx.IDENTIFIER() + ":" + ctx.expression();
+		return ctx.IDENTIFIER().getText() + ":" + ctx.expression().getText();
 	}
 
 	@Override
 	public String visitVariable(ccParser.VariableContext ctx)
 	{
-		return ctx.IDENTIFIER().toString();
+		return ctx.IDENTIFIER().getText();
 	}
 
 	@Override
