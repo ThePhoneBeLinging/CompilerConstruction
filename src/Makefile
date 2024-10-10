@@ -30,7 +30,7 @@ main.class:	ccLexer.java main.java
 	javac -cp $(classpath) $(GENERATED) main.java
 
 run:	main.class
-	java -cp $(classpath) main test/$(1b)
+	java -cp $(classpath) main test/$(1a)
 
 clean:
 	rm $(GENERATED) *.class cc.interp ccLexer.interp ccLexer.tokens cc.tokens

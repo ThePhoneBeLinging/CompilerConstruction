@@ -36,7 +36,7 @@ public class main {
 		// Construct an interpreter and run it on the parse tree
 		Interpreter interpreter = new Interpreter();
 		String result=interpreter.visit(parseTree);
-		System.out.println("The result is: " + result);
+		System.out.println(result);
 	}
 }
 
@@ -60,43 +60,89 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitUpdatesContext(ccParser.UpdatesContextContext ctx)
 	{
-		return "";
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("<h2> Updates </h2>\n");
+		for (var expr : ctx.expression())
+		{
+			builder.append(visit(expr)).append('\n');
+		}
+
+		return builder.toString();
 	}
 
 	@Override
 	public String visitSimnputContext(ccParser.SimnputContextContext ctx)
 	{
-		return "";
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("<h2> Simulation inputs </h2>\n");
+		for (var expr : ctx.expression())
+		{
+			builder.append(visit(expr)).append('\n');
+		}
+
+		return builder.toString();
 	}
 
 	@Override
 	public String visitInputsContext(ccParser.InputsContextContext ctx)
 	{
-		return "";
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("<h2> Inputs </h2>\n");
+		for (var expr : ctx.expression())
+		{
+			builder.append(visit(expr)).append('\n');
+		}
+
+		return builder.toString();
 	}
 
 	@Override
 	public String visitOutputsContext(ccParser.OutputsContextContext ctx)
 	{
-		return "";
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("<h2> Outputs</h2>\n");
+		for (var expr : ctx.expression())
+		{
+			builder.append(visit(expr)).append('\n');
+		}
+
+		return builder.toString();
 	}
 
 	@Override
 	public String visitDefContext(ccParser.DefContextContext ctx)
 	{
-		return "";
+		StringBuilder builder = new StringBuilder();
+		for (var expr : ctx.expression())
+		{
+			builder.append(visit(expr)).append('\n');
+		}
+
+		return builder.toString();
 	}
 
 	@Override
 	public String visitLathesContext(ccParser.LathesContextContext ctx)
 	{
-		return "";
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("<h2> Latches</h2>\n");
+		for (var expr : ctx.expression())
+		{
+			builder.append(visit(expr)).append('\n');
+		}
+
+		return builder.toString();
 	}
 
 	@Override
 	public String visitHardwareContext(ccParser.HardwareContextContext ctx)
 	{
-		return "<!DOCTYPE html>\n<html><head><title>" + ctx.name + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
+		return "<!DOCTYPE html>\n<html><head><title>" + ctx.IDENTIFIER() + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
 	}
 
 	@Override
@@ -114,7 +160,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitNotExp(ccParser.NotExpContext ctx)
 	{
-		return "/" + ctx.identifier.toString();
+		return "/" + ctx.IDENTIFIER().toString();
 	}
 
 	@Override
@@ -133,5 +179,23 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitORExp(ccParser.ORExpContext ctx)
 	{
 		return visit(ctx.exp1) + " + " + visit(ctx.exp2);
+	}
+
+	@Override
+	public String visitIdentEqNum(ccParser.IdentEqNumContext ctx)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+
+		stringBuilder.append(ctx.IDENTIFIER());
+		stringBuilder.append(ctx.EQUALS());
+		stringBuilder.append(ctx.NUMBER());
+
+		return stringBuilder.toString();
+	}
+
+	@Override
+	public String visitExpEQExp(ccParser.ExpEQExpContext ctx)
+	{
+		return visit(ctx.exp1) + visit(ctx.exp2);
 	}
 }
