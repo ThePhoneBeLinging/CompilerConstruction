@@ -53,6 +53,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		{
 			finalResult.append(visit(child));
 		}
+		finalResult.append("</body></html>\n");
 		return finalResult.toString();
 	}
 
@@ -93,50 +94,44 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	}
 
 	@Override
-	public String visitAssignmentContext(ccParser.AssignmentContextContext ctx)
-	{
-		return "ASSIGNMENT";
-	}
-
-	@Override
 	public String visitHardwareContext(ccParser.HardwareContextContext ctx)
 	{
-		return "\"<!DOCTYPE html>\n\\\"\"<html><head><title>" + ctx.name + "</title>\n\"\"<script src=\\\"https://polyfill.io/v3/polyfill.min.js?features=es6\\\"></script>\n\"\"<script type=\"text/javascript\" id=\"MathJax-script\"\\n\"\"async\n\"\"src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n\"\"</script></head><body>\\n\"";
+		return "<!DOCTYPE html>\n<html><head><title>" + ctx.name + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
 	}
 
 	@Override
 	public String visitDEFINITION(ccParser.DEFINITIONContext ctx)
 	{
-		return "";
+		return "DEFINITION MISSING";
 	}
 
 	@Override
 	public String visitANDExp(ccParser.ANDExpContext ctx)
 	{
-		return "";
+		return visit(ctx.exp1) + " * " + visit(ctx.exp2);
 	}
 
 	@Override
 	public String visitNotExp(ccParser.NotExpContext ctx)
 	{
-		return "";
+		return "/" + ctx.identifier.toString();
 	}
 
 	@Override
 	public String visitIdentEqExp(ccParser.IdentEqExpContext ctx)
 	{
-		return "";
+		return ctx.IDENTIFIER() + ":" + ctx.expression();
 	}
 
 	@Override
 	public String visitVariable(ccParser.VariableContext ctx)
 	{
-		return "";
+		return ctx.IDENTIFIER().toString();
 	}
 
 	@Override
 	public String visitORExp(ccParser.ORExpContext ctx)
 	{
-		return "\\not";
+		return visit(ctx.exp1) + " + " + visit(ctx.exp2);
 	}
 }

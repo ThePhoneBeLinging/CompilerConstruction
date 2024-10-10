@@ -1,6 +1,6 @@
 grammar cc;
 
-start       : (assignment | hardware | updates | def | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)* EOF;
+start       : (hardware | updates | def | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)* EOF;
 
 // Top level:
 
@@ -10,14 +10,13 @@ inputs: 'inputs' COLON (expression)+ # InputsContext;
 outputs: 'outputs' COLON (expression)+ # OutputsContext;
 def: DEF COLON IDENTIFIER '(' IDENTIFIER (',' IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
 latches: 'latches' COLON (expression)+ # LathesContext;
-assignment: TYPES COLON expression # AssignmentContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 
 // Expressions:
 expression: IDENTIFIER EQUALS expression #IdentEqExp
-            | NOT IDENTIFIER # NotExp
-            | expression AND expression # ANDExp
-            | expression OR expression # ORExp
+            | NOT identifier=IDENTIFIER # NotExp
+            | exp1 = expression AND exp2 = expression # ANDExp
+            | exp1=expression OR exp2=expression # ORExp
             | IDENTIFIER '(' expression (',' expression)* ')' # DEFINITION
             | IDENTIFIER # Variable;
 
