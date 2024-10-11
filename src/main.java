@@ -72,7 +72,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("<h2> Updates </h2>\n");
-		for (var expr : ctx.implicitAndAbleExpression())
+		for (var expr : ctx.updateInputExp())
 		{
 			builder.append("\\(").append(visit(expr)).append("\\)<br>\n");
 			String bobTheNotBuilder = builder.toString().replace(":", "&larr;\\)\\").replace("=","&larr;");
@@ -142,12 +142,12 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 				builder.append(',');
 				builder.append(params);
 			}
-			builder.append(')');
 			builder.append(")");
 			builder.append(" = ");
 			builder.append("(");
 			builder.append(visit(expr));
-			builder.append(")\\)");
+			builder.append(")");
+			builder.append("\\)");
 		}
 
 		return builder.toString();
@@ -190,6 +190,16 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("<b>").append(ctx.exp.getText()).append("</b>").append(ctx.op.getText()).append(ctx.num.getText()).append("<br>\n");
+		return builder.toString();
+	}
+
+	@Override
+	public String visitUpdateInputExpress(ccParser.UpdateInputExpressContext ctx)
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append(ctx.ident.getText());
+		builder.append(ctx.op.getText());
+		builder.append(visit(ctx.exp));
 		return builder.toString();
 	}
 

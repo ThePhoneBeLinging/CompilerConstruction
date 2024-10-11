@@ -4,7 +4,7 @@ start       : (hardware | updates | definitions | siminputs | inputs | outputs |
 
 // Top level:
 
-updates: 'updates' COLON (implicitAndAbleExpression)+ # UpdatesContext;
+updates: 'updates' COLON (updateInputExp)+ # UpdatesContext;
 siminputs:  'siminputs' COLON (siminputExp)+ #SimnputContext;
 inputs: 'inputs' COLON (expression)+ # InputsContext;
 outputs: 'outputs' COLON (expression)+ # OutputsContext;
@@ -14,7 +14,7 @@ hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 definitions: def+ # MultipleDefinitions;
 
 siminputExp: exp=expression op=EQUALS num=NUMBER # siminputexpression;
-
+updateInputExp: ident=IDENTIFIER op=EQUALS exp=implicitAndAbleExpression #updateInputExpress;
 // Expressions:
 expression:  IDENTIFIER EQUALS expression #IdentEqExp
             | IDENTIFIER EQUALS NUMBER #IdentEqNum
@@ -29,7 +29,7 @@ expression:  IDENTIFIER EQUALS expression #IdentEqExp
 implicitAndAbleExpression:
                 expression #simpleExpressionVisit
                 | exp1=implicitAndAbleExpression (NOT? ident=IDENTIFIER)+                      #ImplicitAndExp
-                | exp1=implicitAndAbleExpression exp2=implicitAndAbleExpression #ImplicitWithImplicit
+                | exp1=expression exp2=expression #ImplicitWithImplicit
                 ;
 DEF: 'def';
 WHITESPACE: [ \n\t\r]+ -> skip;
