@@ -138,8 +138,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			builder.append(")");
 			builder.append(" = ");
 			builder.append("(");
-			builder.append(visit(expr)).append("<br>").append('\n');
-			builder.append(")");
+			builder.append(visit(expr)).append(")").append("<br>").append('\n');
 		}
 
 		return builder.toString();
