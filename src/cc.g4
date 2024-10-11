@@ -8,7 +8,7 @@ updates: 'updates' COLON (implicitAndAbleExpression)+ # UpdatesContext;
 siminputs:  'siminputs' COLON (siminputExp)+ #SimnputContext;
 inputs: 'inputs' COLON (expression)+ # InputsContext;
 outputs: 'outputs' COLON (expression)+ # OutputsContext;
-def: DEF COLON funcName=IDENTIFIER '(' ident1=IDENTIFIER (',' ident2=IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
+def: DEF COLON funcName=IDENTIFIER '(' ident1=IDENTIFIER (',' ident2=IDENTIFIER)* ')' EQUALS (implicitAndAbleExpression)+ # DefContext;
 latches: 'latches' COLON (expression)+ # LathesContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 definitions: def+ # MultipleDefinitions;
@@ -28,7 +28,9 @@ expression:  IDENTIFIER EQUALS expression #IdentEqExp
             ;
 implicitAndAbleExpression:
                 expression #simpleExpressionVisit
-                | exp1=implicitAndAbleExpression (NOT? ident=IDENTIFIER)+                      #ImplicitAndExp;
+                | exp1=implicitAndAbleExpression (NOT? ident=IDENTIFIER)+                      #ImplicitAndExp
+                | exp1=implicitAndAbleExpression exp2=implicitAndAbleExpression #ImplicitWithImplicit
+                ;
 DEF: 'def';
 WHITESPACE: [ \n\t\r]+ -> skip;
 TYPES: 'hardware' | 'inputs' | 'outputs' | 'latches' | 'updates' | 'siminputs';

@@ -129,7 +129,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitDefContext(ccParser.DefContextContext ctx)
 	{
 		StringBuilder builder = new StringBuilder();
-		for (var expr : ctx.expression())
+		for (var expr : ctx.implicitAndAbleExpression())
 		{
 			builder.append("\\(");
 			builder.append("\\mathit{");
@@ -239,6 +239,12 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitImplicitAndExp(ccParser.ImplicitAndExpContext ctx)
 	{
 		return ctx.exp1.getText() + " \\wedge " + ctx.ident.getText();
+	}
+
+	@Override
+	public String visitImplicitWithImplicit(ccParser.ImplicitWithImplicitContext ctx)
+	{
+		return ctx.exp1.getText() + " \\wedge " + ctx.exp2.getText();
 	}
 
 	@Override
