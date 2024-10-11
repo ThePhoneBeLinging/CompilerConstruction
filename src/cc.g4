@@ -13,15 +13,16 @@ latches: 'latches' COLON (expression)+ # LathesContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 definitions: def+ # MultipleDefinitions;
 // Expressions:
-expression: '(' expression ')' #expressionInParenthesis
-            | IDENTIFIER EQUALS expression #IdentEqExp
+expression:  IDENTIFIER EQUALS expression #IdentEqExp
             | IDENTIFIER EQUALS NUMBER #IdentEqNum
             | NOT IDENTIFIER # NotExp
-            | exp1 = expression AND exp2 = expression # ANDExp
+            | exp1 = expression (AND) exp2 = expression # ANDExp
             | exp1=expression OR exp2=expression # ORExp
             | IDENTIFIER '(' exp1=expression (',' exp2=expression)* ')' # DEFINITION
             | exp1=expression EQUALS exp2=expression # ExpEQExp
-            | IDENTIFIER # Variable;
+            | '(' expression ')' #expressionInParenthesis
+            | IDENTIFIER #Variable
+            | exp1=expression (NOT? ident=IDENTIFIER)+                      #ImplicitAndExp;
 
 DEF: 'def';
 WHITESPACE: [ \n\t\r]+ -> skip;

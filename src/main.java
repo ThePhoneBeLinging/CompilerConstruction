@@ -220,6 +220,12 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	}
 
 	@Override
+	public String visitImplicitAndExp(ccParser.ImplicitAndExpContext ctx)
+	{
+		return ctx.exp1.getText() + "\\wedge" + ctx.ident.getText();
+	}
+
+	@Override
 	public String visitVariable(ccParser.VariableContext ctx)
 	{
 		return ctx.IDENTIFIER().getText();
