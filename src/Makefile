@@ -24,13 +24,13 @@ ccLexer.java:	cc.g4
 	$(antlr4) -visitor cc.g4
 
 grun:	ccLexer.class cc.txt
-	$(grun) cc start -gui -tokens test/$(1a)
+	$(grun) cc start -gui -tokens test/$(04)
 
 main.class:	ccLexer.java main.java
 	javac -cp $(classpath) $(GENERATED) main.java
 
 run:	main.class
-	java -cp $(classpath) main test/$(1b)
+	java -cp $(classpath) main test/$(04)
 
 clean:
 	rm $(GENERATED) *.class cc.interp ccLexer.interp ccLexer.tokens cc.tokens

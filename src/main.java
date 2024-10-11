@@ -120,7 +120,6 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitDefContext(ccParser.DefContextContext ctx)
 	{
 		StringBuilder builder = new StringBuilder();
-		builder.append("<h2> Definitions</h2>\n");
 		for (var expr : ctx.expression())
 		{
 			builder.append("\\(");
@@ -138,7 +137,8 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			builder.append(")");
 			builder.append(" = ");
 			builder.append("(");
-			builder.append(visit(expr)).append(")").append("<br>").append('\n');
+			builder.append(visit(expr));
+			builder.append(")");
 		}
 
 		return builder.toString();
@@ -162,6 +162,19 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitHardwareContext(ccParser.HardwareContextContext ctx)
 	{
 		return "<!DOCTYPE html>\n<html><head><title>" + ctx.IDENTIFIER().getText() + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
+	}
+
+	@Override
+	public String visitMultipleDefinitions(ccParser.MultipleDefinitionsContext ctx)
+	{
+		var builder = new StringBuilder();
+		builder.append("<h2> Definitions</h2>\n");
+		for (var definition : ctx.def())
+		{
+			builder.append(visit(definition)).append('\n');
+		}
+		builder.append("<br>\n");
+		return builder.toString();
 	}
 
 	@Override

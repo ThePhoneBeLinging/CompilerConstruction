@@ -1,6 +1,6 @@
 grammar cc;
 
-start       : (hardware | updates | def | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)*;
+start       : (hardware | updates | definitions | siminputs | inputs | outputs | latches | COMMENT | WHITESPACE)*;
 
 // Top level:
 
@@ -11,7 +11,7 @@ outputs: 'outputs' COLON (expression)+ # OutputsContext;
 def: DEF COLON funcName=IDENTIFIER '(' ident1=IDENTIFIER (',' ident2=IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
 latches: 'latches' COLON (expression)+ # LathesContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
-
+definitions: def+ # MultipleDefinitions;
 // Expressions:
 expression: '(' expression ')' #expressionInParenthesis
             | IDENTIFIER EQUALS expression #IdentEqExp
