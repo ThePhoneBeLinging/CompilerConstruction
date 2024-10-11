@@ -117,8 +117,20 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitDefContext(ccParser.DefContextContext ctx)
 	{
 		StringBuilder builder = new StringBuilder();
+		builder.append("<h2> Definitions</h2>\n");
 		for (var expr : ctx.expression())
 		{
+			builder.append("def: ");
+			builder.append(ctx.funcName.getText());
+
+			builder.append('(');
+			builder.append(ctx.ident1.getText());
+			for (var params : ctx.ident2.getText().split(","))
+			{
+				builder.append(params);
+			}
+			builder.append(')');
+			builder.append(" = ");
 			builder.append(visit(expr)).append('\n');
 		}
 
@@ -142,7 +154,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitHardwareContext(ccParser.HardwareContextContext ctx)
 	{
-		return "<!DOCTYPE html>\n<html><head><title>" + ctx.IDENTIFIER() + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
+		return "<!DOCTYPE html>\n<html><head><title>" + ctx.IDENTIFIER().getText() + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
 	}
 
 	@Override

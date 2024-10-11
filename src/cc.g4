@@ -8,7 +8,7 @@ updates: 'updates' COLON (expression)+ # UpdatesContext;
 siminputs:  'siminputs' COLON (expression)+ #SimnputContext;
 inputs: 'inputs' COLON (expression)+ # InputsContext;
 outputs: 'outputs' COLON (expression)+ # OutputsContext;
-def: DEF COLON IDENTIFIER '(' ident1=IDENTIFIER (',' ident2=IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
+def: DEF COLON funcName=IDENTIFIER '(' ident1=IDENTIFIER (',' ident2=IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
 latches: 'latches' COLON (expression)+ # LathesContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 
