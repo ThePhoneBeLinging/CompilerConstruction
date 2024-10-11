@@ -173,13 +173,13 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			builder.append(ctx.IDENTIFIER().getText());
 			builder.append("}");
 			builder.append('(');
-			builder.append("\\mathit{");
+			builder.append("\\mathrm{");
 			builder.append(ctx.exp1.getText());
 			builder.append("}");
 			for (var params : ctx.exp2.getText().split(","))
 			{
 				builder.append(',');
-				builder.append("\\mathit{");
+				builder.append("\\mathrm{");
 				builder.append(params);
 				builder.append("}");
 			}
