@@ -66,10 +66,9 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		for (var expr : ctx.expression())
 		{
 			builder.append(visit(expr)).append('\n');
-			String bobTheNotBuilder = builder.toString().replace(":", "&larr");
+			String bobTheNotBuilder = builder.toString().replace(":", "&larr;\\");
 			builder = new StringBuilder();
 			builder.append(bobTheNotBuilder);
-			builder.append("<br>");
 		}
 
 		return builder.toString();
@@ -136,8 +135,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			}
 			builder.append(')');
 			builder.append(" = ");
-			builder.append("<br>");
-			builder.append(visit(expr)).append('\n');
+			builder.append(visit(expr)).append("<br>").append('\n');
 		}
 
 		return builder.toString();
@@ -166,12 +164,25 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitDEFINITION(ccParser.DEFINITIONContext ctx)
 	{
-		StringBuilder bobTheBuilder = new StringBuilder();
-
-		bobTheBuilder.append("{");
-		bobTheBuilder.append("")
-
-		return "";
+		// Oscillator&larr;\(\mathit{nor}(\mathrm{Oscillator’},\mathrm{Reset})\)<br>
+		StringBuilder builder = new StringBuilder();
+		for (var expr : ctx.expression())
+		{
+			builder.append('(');
+			builder.append("\\mathit{");
+			builder.append(ctx.IDENTIFIER().getText());
+			builder.append("}");
+			builder.append('(');
+			builder.append(ctx.exp1.getText());
+			for (var params : ctx.exp2.getText().split(","))
+			{
+				builder.append(',');
+				builder.append(params);
+			}
+			builder.append(visit(expr));
+		}
+		builder.append(')');
+		return builder.toString();
 	}
 
 	@Override
@@ -195,7 +206,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitVariable(ccParser.VariableContext ctx)
 	{
-		return "{" + ctx.IDENTIFIER().getText() + "}";
+		return ctx.IDENTIFIER().getText();
 	}
 
 	@Override

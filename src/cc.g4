@@ -19,7 +19,7 @@ expression: '(' expression ')' #expressionInParenthesis
             | NOT IDENTIFIER # NotExp
             | exp1 = expression AND exp2 = expression # ANDExp
             | exp1=expression OR exp2=expression # ORExp
-            | IDENTIFIER '(' expression (',' expression)* ')' # DEFINITION
+            | IDENTIFIER '(' exp1=expression (',' exp2=expression)* ')' # DEFINITION
             | exp1=expression EQUALS exp2=expression # ExpEQExp
             | IDENTIFIER # Variable;
 
