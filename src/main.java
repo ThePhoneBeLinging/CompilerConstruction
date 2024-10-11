@@ -65,7 +65,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Updates </h2>\n");
 		for (var expr : ctx.implicitAndAbleExpression())
 		{
-			builder.append(visit(expr)).append('\n');
+			builder.append(visit(expr)).append("<br>\n");
 			String bobTheNotBuilder = builder.toString().replace(":", "&larr;\\");
 			builder = new StringBuilder();
 			builder.append(bobTheNotBuilder);
@@ -197,6 +197,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			builder.append(params);
 			builder.append("}");
 		}
+		builder.append(')');
 		builder.append(')');
 		return builder.toString();
 	}
