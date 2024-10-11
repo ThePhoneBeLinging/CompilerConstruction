@@ -66,6 +66,10 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		for (var expr : ctx.expression())
 		{
 			builder.append(visit(expr)).append('\n');
+			String bobTheNotBuilder = builder.toString().replace(":", "&larr");
+			builder = new StringBuilder();
+			builder.append(bobTheNotBuilder);
+			builder.append("<br>");
 		}
 
 		return builder.toString();
@@ -120,17 +124,19 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Definitions</h2>\n");
 		for (var expr : ctx.expression())
 		{
-			builder.append("def: ");
+			builder.append("\\mathit{");
 			builder.append(ctx.funcName.getText());
-
+			builder.append("}");
 			builder.append('(');
 			builder.append(ctx.ident1.getText());
 			for (var params : ctx.ident2.getText().split(","))
 			{
+				builder.append(',');
 				builder.append(params);
 			}
 			builder.append(')');
 			builder.append(" = ");
+			builder.append("<br>");
 			builder.append(visit(expr)).append('\n');
 		}
 
@@ -160,19 +166,24 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitDEFINITION(ccParser.DEFINITIONContext ctx)
 	{
-		return "DEFINITION MISSING";
+		StringBuilder bobTheBuilder = new StringBuilder();
+
+		bobTheBuilder.append("{");
+		bobTheBuilder.append("")
+
+		return "";
 	}
 
 	@Override
 	public String visitANDExp(ccParser.ANDExpContext ctx)
 	{
-		return visit(ctx.exp1) + " * " + visit(ctx.exp2);
+		return visit(ctx.exp1) + " \\wedge " + visit(ctx.exp2);
 	}
 
 	@Override
 	public String visitNotExp(ccParser.NotExpContext ctx)
 	{
-		return "\\mathit" + ctx.IDENTIFIER().getText();
+		return "\\neg(\\mathrm{" + ctx.IDENTIFIER().getText() + "})";
 	}
 
 	@Override
@@ -184,13 +195,13 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitVariable(ccParser.VariableContext ctx)
 	{
-		return ctx.IDENTIFIER().getText();
+		return "{" + ctx.IDENTIFIER().getText() + "}";
 	}
 
 	@Override
 	public String visitORExp(ccParser.ORExpContext ctx)
 	{
-		return visit(ctx.exp1) + " + " + visit(ctx.exp2);
+		return visit(ctx.exp1) + " \\vee " + visit(ctx.exp2);
 	}
 
 	@Override
