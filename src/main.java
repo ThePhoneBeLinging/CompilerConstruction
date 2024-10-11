@@ -172,13 +172,13 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitNotExp(ccParser.NotExpContext ctx)
 	{
-		return "/" + ctx.IDENTIFIER().getText();
+		return "\\mathit" + ctx.IDENTIFIER().getText();
 	}
 
 	@Override
 	public String visitIdentEqExp(ccParser.IdentEqExpContext ctx)
 	{
-		return ctx.IDENTIFIER().getText() + ":" + ctx.expression().getText();
+		return ctx.IDENTIFIER().getText() + ":" + visit(ctx.expression());
 	}
 
 	@Override
