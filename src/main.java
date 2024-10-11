@@ -123,6 +123,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Definitions</h2>\n");
 		for (var expr : ctx.expression())
 		{
+			builder.append("\\(");
 			builder.append("\\mathit{");
 			builder.append(ctx.funcName.getText());
 			builder.append("}");
@@ -134,8 +135,11 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 				builder.append(params);
 			}
 			builder.append(')');
+			builder.append(")");
 			builder.append(" = ");
+			builder.append("(");
 			builder.append(visit(expr)).append("<br>").append('\n');
+			builder.append(")");
 		}
 
 		return builder.toString();
