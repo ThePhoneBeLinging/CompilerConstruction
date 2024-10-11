@@ -89,9 +89,9 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("<h2> Simulation inputs </h2>\n");
-		for (var expr : ctx.expression())
+		for (var expr : ctx.siminputExp())
 		{
-			builder.append(visit(expr)).append("<br>\n");
+			builder.append(visit(expr));
 		}
 
 		return builder.toString();
@@ -182,6 +182,14 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		{
 			builder.append(visit(definition)).append("<br>\n");
 		}
+		return builder.toString();
+	}
+
+	@Override
+	public String visitSiminputexpression(ccParser.SiminputexpressionContext ctx)
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("<b>").append(ctx.exp.getText()).append("</b>").append(ctx.op.getText()).append(ctx.num.getText()).append("<br>\n");
 		return builder.toString();
 	}
 

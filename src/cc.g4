@@ -5,13 +5,16 @@ start       : (hardware | updates | definitions | siminputs | inputs | outputs |
 // Top level:
 
 updates: 'updates' COLON (implicitAndAbleExpression)+ # UpdatesContext;
-siminputs:  'siminputs' COLON (expression)+ #SimnputContext;
+siminputs:  'siminputs' COLON (siminputExp)+ #SimnputContext;
 inputs: 'inputs' COLON (expression)+ # InputsContext;
 outputs: 'outputs' COLON (expression)+ # OutputsContext;
 def: DEF COLON funcName=IDENTIFIER '(' ident1=IDENTIFIER (',' ident2=IDENTIFIER)* ')' EQUALS (expression)+ # DefContext;
 latches: 'latches' COLON (expression)+ # LathesContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 definitions: def+ # MultipleDefinitions;
+
+siminputExp: exp=expression op=EQUALS num=NUMBER # siminputexpression;
+
 // Expressions:
 expression:  IDENTIFIER EQUALS expression #IdentEqExp
             | IDENTIFIER EQUALS NUMBER #IdentEqNum
