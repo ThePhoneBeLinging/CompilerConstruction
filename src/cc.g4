@@ -13,7 +13,8 @@ latches: 'latches' COLON (expression)+ # LathesContext;
 hardware: 'hardware' COLON name=IDENTIFIER # HardwareContext;
 
 // Expressions:
-expression: IDENTIFIER EQUALS expression #IdentEqExp
+expression: '(' expression ')' #expressionInParenthesis
+            | IDENTIFIER EQUALS expression #IdentEqExp
             | IDENTIFIER EQUALS NUMBER #IdentEqNum
             | NOT IDENTIFIER # NotExp
             | exp1 = expression AND exp2 = expression # ANDExp

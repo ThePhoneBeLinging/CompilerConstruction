@@ -210,4 +210,10 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	{
 		return visit(ctx.exp1) + visit(ctx.exp2);
 	}
+
+	@Override
+	public String visitExpressionInParenthesis(ccParser.ExpressionInParenthesisContext ctx)
+	{
+		return visit(ctx.expression());
+	}
 }
