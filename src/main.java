@@ -2,7 +2,10 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.CharStreams;
+
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,12 @@ public class main {
 		Interpreter interpreter = new Interpreter();
 		String result=interpreter.visit(parseTree);
 		System.out.println(result);
+		try (PrintWriter writer = new PrintWriter(new FileWriter("WannaBeDarthVader.html"))) {
+			writer.println(result);
+			System.out.println("Successfully written to the file.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -82,7 +91,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Simulation inputs </h2>\n");
 		for (var expr : ctx.expression())
 		{
-			builder.append(visit(expr)).append('\n');
+			builder.append(visit(expr)).append("<br>\n");
 		}
 
 		return builder.toString();
@@ -96,7 +105,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Inputs </h2>\n");
 		for (var expr : ctx.expression())
 		{
-			builder.append(visit(expr)).append('\n');
+			builder.append(visit(expr)).append("<br>\n");
 		}
 
 		return builder.toString();
@@ -110,7 +119,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Outputs</h2>\n");
 		for (var expr : ctx.expression())
 		{
-			builder.append(visit(expr)).append('\n');
+			builder.append(visit(expr)).append("<br>\n");
 		}
 
 		return builder.toString();
@@ -138,7 +147,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			builder.append(" = ");
 			builder.append("(");
 			builder.append(visit(expr));
-			builder.append(")");
+			builder.append(")\\)");
 		}
 
 		return builder.toString();
@@ -152,7 +161,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Latches</h2>\n");
 		for (var expr : ctx.expression())
 		{
-			builder.append(visit(expr)).append('\n');
+			builder.append(visit(expr)).append("<br>\n");
 		}
 
 		return builder.toString();
@@ -161,7 +170,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	@Override
 	public String visitHardwareContext(ccParser.HardwareContextContext ctx)
 	{
-		return "<!DOCTYPE html>\n<html><head><title>" + ctx.IDENTIFIER().getText() + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n";
+		return "<!DOCTYPE html>\n<html><head><title>" + ctx.IDENTIFIER().getText() + "</title>\n<script src=\"https://polyfill.io/v3/polyfill.min.js?features=es6\"></script>\n<script type=\"text/javascript\" id=\"MathJax-script\"\nasync src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\">\n</script></head><body>\n<h1>" + ctx.IDENTIFIER().getText() + "</h1>\n";
 	}
 
 	@Override
@@ -171,9 +180,8 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		builder.append("<h2> Definitions</h2>\n");
 		for (var definition : ctx.def())
 		{
-			builder.append(visit(definition)).append('\n');
+			builder.append(visit(definition)).append("<br>\n");
 		}
-		builder.append("<br>\n");
 		return builder.toString();
 	}
 
@@ -197,8 +205,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 			builder.append(params);
 			builder.append("}");
 		}
-		builder.append(')');
-		builder.append(')');
+		builder.append(")\\)");
 		return builder.toString();
 	}
 
