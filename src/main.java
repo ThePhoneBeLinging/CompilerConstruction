@@ -63,7 +63,7 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("<h2> Updates </h2>\n");
-		for (var expr : ctx.expression())
+		for (var expr : ctx.implicitAndAbleExpression())
 		{
 			builder.append(visit(expr)).append('\n');
 			String bobTheNotBuilder = builder.toString().replace(":", "&larr;\\");
@@ -259,5 +259,11 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	public String visitExpressionInParenthesis(ccParser.ExpressionInParenthesisContext ctx)
 	{
 		return visit(ctx.expression());
+	}
+
+	@Override
+	public String visitSimpleExpressionVisit(ccParser.SimpleExpressionVisitContext ctx)
+	{
+		return visit(ctx.getChild(0));
 	}
 }

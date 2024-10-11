@@ -4,7 +4,7 @@ start       : (hardware | updates | definitions | siminputs | inputs | outputs |
 
 // Top level:
 
-updates: 'updates' COLON (expression)+ # UpdatesContext;
+updates: 'updates' COLON (implicitAndAbleExpression)+ # UpdatesContext;
 siminputs:  'siminputs' COLON (expression)+ #SimnputContext;
 inputs: 'inputs' COLON (expression)+ # InputsContext;
 outputs: 'outputs' COLON (expression)+ # OutputsContext;
@@ -22,8 +22,10 @@ expression:  IDENTIFIER EQUALS expression #IdentEqExp
             | exp1=expression EQUALS exp2=expression # ExpEQExp
             | '(' expression ')' #expressionInParenthesis
             | IDENTIFIER #Variable
-            | exp1=expression (NOT? ident=IDENTIFIER)+                      #ImplicitAndExp;
-
+            ;
+implicitAndAbleExpression:
+                expression #simpleExpressionVisit
+                | exp1=implicitAndAbleExpression (NOT? ident=IDENTIFIER)+                      #ImplicitAndExp;
 DEF: 'def';
 WHITESPACE: [ \n\t\r]+ -> skip;
 TYPES: 'hardware' | 'inputs' | 'outputs' | 'latches' | 'updates' | 'siminputs';
