@@ -170,24 +170,20 @@ class Interpreter extends AbstractParseTreeVisitor<String>
 	{
 		// Oscillator&larr;\(\mathit{nor}(\mathrm{Oscillator’},\mathrm{Reset})\)<br>
 		StringBuilder builder = new StringBuilder();
-		for (var expr : ctx.expression())
+		builder.append('(');
+		builder.append("\\mathit{");
+		builder.append(ctx.IDENTIFIER().getText());
+		builder.append("}");
+		builder.append('(');
+		builder.append("\\mathrm{");
+		builder.append(ctx.exp1.getText());
+		builder.append("}");
+		for (var params : ctx.exp2.getText().split(","))
 		{
-			builder.append('(');
-			builder.append("\\mathit{");
-			builder.append(ctx.IDENTIFIER().getText());
-			builder.append("}");
-			builder.append('(');
+			builder.append(',');
 			builder.append("\\mathrm{");
-			builder.append(ctx.exp1.getText());
+			builder.append(params);
 			builder.append("}");
-			for (var params : ctx.exp2.getText().split(","))
-			{
-				builder.append(',');
-				builder.append("\\mathrm{");
-				builder.append(params);
-				builder.append("}");
-			}
-			builder.append(visit(expr));
 		}
 		builder.append(')');
 		return builder.toString();
